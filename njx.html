@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nabhan - AI Specialist & Martial Artist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            color: #E5E7EB;
+        }
+        
+        .glow-text {
+            color: #50FAD2;
+            text-shadow: 0 0 10px #50FAD2;
+        }
+        
+        .glow-border {
+            border: 2px solid #50FAD2;
+            box-shadow: 0 0 10px #50FAD2;
+        }
+        
+        .glow-button {
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .glow-button:hover {
+            box-shadow: 0 0 25px rgba(34, 211, 238, 0.6);
+            transform: scale(1.05);
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .mobile-menu {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-100">
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-black bg-opacity-90 border-b border-gray-800">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold glow-text">NABHAN</div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="hover:text-cyan-400 transition-colors">Home</a>
+                    <a href="#about" class="hover:text-cyan-400 transition-colors">About</a>
+                    <a href="#achievements" class="hover:text-cyan-400 transition-colors">Achievements</a>
+                    <a href="#skills" class="hover:text-cyan-400 transition-colors">Skills</a>
+                    <a href="#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-btn" class="md:hidden">
+                    <div class="w-6 h-0.5 bg-white mb-1"></div>
+                    <div class="w-6 h-0.5 bg-white mb-1"></div>
+                    <div class="w-6 h-0.5 bg-white"></div>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="mobile-menu md:hidden bg-black border-t border-gray-800">
+                <div class="hidden md:flex flex-col space-y-4 p-4">
+                    <a href="#home" class="hover:text-cyan-400">Home</a>
+                    <a href="#about" class="hover:text-cyan-400">About</a>
+                    <a href="#achievements" class="hover:text-cyan-400">Achievements</a>
+                    <a href="#skills" class="hover:text-cyan-400">Skills</a>
+                    <a href="#contact" class="hover:text-cyan-400">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-20">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+                        AI Specialist &<br>
+                        <span class="glow-text">Martial Artist</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-300">Excellence is my rightful state</p>
+                    <p class="text-lg text-gray-400 max-w-lg">
+                        Combining cutting-edge artificial intelligence expertise with disciplined martial arts training.
+                    </p>
+                    <div class="pt-4">
+                        <a href="#achievements" class="inline-block px-8 py-4 bg-gradient-to-r from-teal-600 to-cyan-500 text-white font-semibold rounded-lg glow-button">
+                            View My Work
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center">
+                    <div class="relative">
+                        <img src="p1.jpg" alt="Nabhan Profile" class="w-80 h-80 rounded-full object-cover glow-border float-animation">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-900 bg-opacity-50">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <img src="rn.jpg" alt="About Nabhan" class="w-full rounded-lg">
+                </div>
+                
+                <div class="space-y-6 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold glow-text">About Me</h2>
+                    <p class="text-lg text-gray-300">
+                        I am a multi-disciplinary professional who bridges the gap between cutting-edge technology and ancient wisdom. My journey combines deep expertise in artificial intelligence with the discipline learned through martial arts.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">🤖</span>
+                            <span>AI & Machine Learning</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">🥋</span>
+                            <span>Martial Arts</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">💼</span>
+                            <span>Business AI</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">⚔️</span>
+                            <span>Weapons Training</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 glow-text fade-in">Achievements</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- AI Certification -->
+                <div class="bg-gray-900 bg-opacity-80 p-6 rounded-lg glow-border hover:scale-105 transition-transform fade-in">
+                    <img src="nabhan⃠ ibnjaseer⃠_AI_AWARE_BADGE.png" alt="AI Certification" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-cyan-400">AI Certification</h3>
+                    <p class="text-gray-300 mb-4">"AI since 2022. Government-certified. I’ve tested it all — models, tools, prompts, systems. If it’s AI, I know what works. Ask me anything.",</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-teal-600 bg-opacity-30 text-teal-300 rounded text-sm">Machine Learning</span>
+                        <span class="px-2 py-1 bg-teal-600 bg-opacity-30 text-teal-300 rounded text-sm">Deep Learning</span>
+                    </div>
+                </div>
+                
+                <!-- Martial Arts -->
+                <div class="bg-gray-900 bg-opacity-80 p-6 rounded-lg glow-border hover:scale-105 transition-transform fade-in">
+                    <img src="k2.jpg" alt="Martial Arts" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-cyan-400">Martial Arts Mastery</h3>
+                    <p class="text-gray-300 mb-4">Combat-tested discipline. Trained in real environments, focused on control, power, and resilience. Mind and body sharpened under pressure.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-teal-600 bg-opacity-30 text-teal-300 rounded text-sm">Karate</span>
+                        <span class="px-2 py-1 bg-teal-600 bg-opacity-30 text-teal-300 rounded text-sm">Jiu-Jitsu</span>
+                    </div>
+                </div>
+                
+                <!-- Football -->
+                <div class="bg-gray-900 bg-opacity-80 p-6 rounded-lg glow-border hover:scale-105 transition-transform fade-in">
+                    <img src="f1.jpg" alt="Football" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-cyan-400">Football Championships</h3>
+                    <p class="text-gray-300 mb-4">Winner of 3 penalty shootouts in school years ’6, ’7, and ’10. Played on the school football team since 6th grade. On the pitch</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-teal-600 bg-opacity-30 text-teal-300 rounded text-sm">Teammate</span>
+                        <span class="px-2 py-1 bg-teal-600 bg-opacity-30 text-teal-300 rounded text-sm">penalty</span>
+                    </div>
+                </div>
+                
+                <!-- Web Development -->
+                <div class="bg-gray-900 bg-opacity-80 p-6 rounded-lg glow-border hover:scale-105 transition-transform fade-in">
+                    <img src="Screenshot 2025-07-06 153016.png" alt="Web Development" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2 text-cyan-400">Web Development</h3>
+                    <p class="text-gray-300 mb-4">Created numerous websites across fields — portfolios, company sites, AI chatbots, and side projects like games. Focused on quality and constant growth.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-teal-600 bg-opacity-30 text-teal-300 rounded text-sm">React</span>
+                        <span class="px-2 py-1 bg-teal-600 bg-opacity-30 text-teal-300 rounded text-sm">Node.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-gray-900 bg-opacity-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 glow-text fade-in">Skills & Expertise</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-black bg-opacity-50 p-6 rounded-lg glow-border hover:bg-opacity-70 transition-all fade-in">
+                    <h3 class="text-xl font-bold mb-4 text-cyan-400">💻 Tech & Code</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>• Python & Machine Learning</li>
+                        <li>• JavaScript & React</li>
+                        <li>• AI Model Development</li>
+                        <li>• Data Science</li>
+                        <li>• Cloud Computing</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-black bg-opacity-50 p-6 rounded-lg glow-border hover:bg-opacity-70 transition-all fade-in">
+                    <h3 class="text-xl font-bold mb-4 text-cyan-400">🥊 Combat Arts</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>• Karate (2 kyu)</li>
+                        <li>• Brazilian Jiu-Jitsu</li>
+                        <li>• Muay Thai</li>
+                        <li>• Boxing</li>
+                        <li>• Mixed Martial Arts</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-black bg-opacity-50 p-6 rounded-lg glow-border hover:bg-opacity-70 transition-all fade-in">
+                    <h3 class="text-xl font-bold mb-4 text-cyan-400">⚔️ Weapons Training</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>• nunchakus Combat</li>
+                        <li>• Staff Training</li>
+                        <li>•  balisonf Knife Defense</li>
+                        <li>• Traditional Weapons</li>
+                        <li>• Tactical Training</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-black bg-opacity-50 p-6 rounded-lg glow-border hover:bg-opacity-70 transition-all fade-in">
+                    <h3 class="text-xl font-bold mb-4 text-cyan-400">🎨 Creative Skills</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>• UI/UX Design</li>
+                        <li>• Digital Art</li>
+                        <li>• Content Creation</li>
+                        <li>• Brand AI</li>
+                        <li>• Visual Storytelling</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-black bg-opacity-50 p-6 rounded-lg glow-border hover:bg-opacity-70 transition-all fade-in">
+                    <h3 class="text-xl font-bold mb-4 text-cyan-400">🧠 AI</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>• Vibe Coding</li>
+                        <li>• AI Chatbot</li>
+                        <li>• AI Integration</li>
+                        <li>• Generative AI</li>
+                        <li>• Performance Optimization</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-black bg-opacity-50 p-6 rounded-lg glow-border hover:bg-opacity-70 transition-all fade-in">
+                    <h3 class="text-xl font-bold mb-4 text-cyan-400">💼 Business</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>• Project Management</li>
+                        <li>• Client Relations</li>
+                        <li>• Market Analysis</li>
+                        <li>• Team Building</li>
+                        <li>• Innovation AI</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-900 bg-opacity-50">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 glow-text fade-in">Let's Connect</h2>
+            <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto fade-in">
+                Ready to collaborate? Whether you need AI expertise or strategic guidance, I'm here to help you achieve excellence.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-6 mb-12 fade-in">
+                <a href="https://instagram.com/noobhen_god/" target="_blank" class="flex items-center space-x-2 bg-gradient-to-r from-pink-500 to-purple-600 px-6 py-3 rounded-lg hover:scale-105 transition-transform">
+                    <span>📷</span>
+                    <span>Instagram</span>
+                </a>
+                <a href="https://github.com/NABHANISM" target="_blank" class="flex items-center space-x-2 bg-gray-800 px-6 py-3 rounded-lg hover:scale-105 transition-transform">
+                    <span>💻</span>
+                    <span>GitHub</span>
+                </a>
+                <a href="tel:+971582370390" class="flex items-center space-x-2 bg-green-600 px-6 py-3 rounded-lg hover:scale-105 transition-transform">
+                    <span>📞</span>
+                    <span>Call Me</span>
+                </a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nabhanibnjaseer@gmail.com" class="flex items-center space-x-2 bg-blue-600 px-6 py-3 rounded-lg hover:scale-105 transition-transform">
+                    <span>✉️</span>
+                    <span>Email</span>
+                </a>
+            </div>
+            
+            <div class="fade-in">
+                <a href="https://www.instagram.com/noobhen_god/" class="inline-block px-12 py-4 bg-gradient-to-r from-teal-600 to-cyan-500 text-white font-bold text-lg rounded-lg glow-button">
+                    Contact Me
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 border-t border-gray-800">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400">© 2025 Nabhan. All rights reserved. Excellence is my rightful state.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+        
+        // Close mobile menu on link click
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+        
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        
+        // Chatbot UI Elements
+        const chatbotContainer = document.createElement('div');
+        chatbotContainer.id = 'chatbot-container';
+        chatbotContainer.className = 'fixed bottom-8 right-8 w-96 bg-gray-900 rounded-lg shadow-xl border border-gray-700 overflow-hidden hidden';
+        chatbotContainer.style.zIndex = '1000';
+
+        const chatbotHeader = document.createElement('div');
+        chatbotHeader.className = 'bg-gray-800 p-4 flex justify-between items-center';
+        chatbotHeader.innerHTML = `
+            <h3 class="text-lg font-bold glow-text">Nabhan AI Assistant</h3>
+            <button id="close-chatbot" class="text-gray-400 hover:text-white">✕</button>
+        `;
+
+        const chatMessages = document.createElement('div');
+        chatMessages.id = 'chat-messages';
+        chatMessages.className = 'h-96 overflow-y-auto p-4 space-y-4';
+
+        const chatInputContainer = document.createElement('div');
+        chatInputContainer.className = 'p-4 border-t border-gray-800';
+
+        const chatInput = document.createElement('input');
+        chatInput.id = 'chat-input';
+        chatInput.type = 'text';
+        chatInput.placeholder = 'Ask me about Nabhan...';
+        chatInput.className = 'w-full bg-gray-800 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500';
+
+        const sendButton = document.createElement('button');
+        sendButton.id = 'send-button';
+        sendButton.className = 'mt-2 px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors';
+        sendButton.textContent = 'Send';
+
+        // Build the chatbot UI
+        chatInputContainer.appendChild(chatInput);
+        chatInputContainer.appendChild(sendButton);
+        chatbotContainer.appendChild(chatbotHeader);
+        chatbotContainer.appendChild(chatMessages);
+        chatbotContainer.appendChild(chatInputContainer);
+        document.body.appendChild(chatbotContainer);
+
+        // Toggle button for chatbot
+        const chatbotToggle = document.createElement('button');
+        chatbotToggle.id = 'chatbot-toggle';
+        chatbotToggle.className = 'fixed bottom-8 right-8 w-16 h-16 bg-cyan-600 rounded-full flex items-center justify-center shadow-lg glow-button';
+        chatbotToggle.innerHTML = '🤖';
+        chatbotToggle.style.zIndex = '999';
+        document.body.appendChild(chatbotToggle);
+
+        // Nabhan's data (from your database)
+        const nabhanData = {
+            name: "Nabhan",
+            tagline: "Excellence is my rightful state",
+            description: "Combining cutting-edge artificial intelligence expertise with disciplined martial arts training.",
+            achievements: [
+                {
+                    title: "AI Certification",
+                    description: "AI since 2022. Government-certified. I've tested it all — models, tools, prompts, systems. If it's AI, I know what works. Ask me anything."
+                },
+                {
+                    title: "Martial Arts Mastery",
+                    description: "Combat-tested discipline. Trained in real environments, focused on control, power, and resilience. Mind and body sharpened under pressure."
+                },
+                {
+                    title: "Football Championships",
+                    description: "Winner of 3 penalty shootouts in school years '6, '7, and '10. Played on the school football team since 6th grade."
+                },
+                {
+                    title: "Web Development",
+                    description: "Created numerous websites across fields — portfolios, company sites, AI chatbots, and side projects like games."
+                }
+            ],
+            skills: {
+                tech: ["Python & Machine Learning", "JavaScript & React", "AI Model Development", "Data Science", "Cloud Computing"],
+                martial_arts: ["Karate (2 kyu)", "Brazilian Jiu-Jitsu", "Muay Thai", "Boxing", "Mixed Martial Arts"],
+                weapons: ["Nunchakus Combat", "Staff Training", "Balisonf Knife Defense", "Traditional Weapons", "Tactical Training"]
+            },
+            contact: {
+                instagram: "https://instagram.com/noobhen_god/",
+                github: "https://github.com/NABHANISM",
+                phone: "+971582370390",
+                email: "nabhan@example.com"
+            }
+        };
+
+        // Chatbot functionality
+        let isChatbotOpen = false;
+
+        // Toggle chatbot visibility
+        chatbotToggle.addEventListener('click', () => {
+            isChatbotOpen = !isChatbotOpen;
+            chatbotContainer.classList.toggle('hidden');
+            if (isChatbotOpen) {
+                chatInput.focus();
+                addBotMessage("Hello! I'm here to answer questions about Nabhan. What would you like to know?");
+            }
+        });
+
+        // Close chatbot
+        document.getElementById('close-chatbot').addEventListener('click', () => {
+            isChatbotOpen = false;
+            chatbotContainer.classList.add('hidden');
+        });
+
+        // Send message function
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                addUserMessage(message);
+                chatInput.value = '';
+                processMessage(message);
+            }
+        }
+
+        // Event listeners for sending messages
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Add message to chat
+        function addMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+            
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `max-w-xs p-3 rounded-lg ${isUser ? 'bg-cyan-600' : 'bg-gray-800'}`;
+            messageBubble.textContent = text;
+            
+            messageDiv.appendChild(messageBubble);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addUserMessage(text) {
+            addMessage(text, true);
+        }
+
+        function addBotMessage(text) {
+            addMessage(text, false);
+        }
+
+        // Process user message and generate response
+        async function processMessage(message) {
+            // First check if we can answer from local data
+            const localResponse = getLocalResponse(message);
+            if (localResponse) {
+                addBotMessage(localResponse);
+                return;
+            }
+
+            // If not found in local data, use Gemini API
+            try {
+                const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyANuhn8g-4LxJwp9sCM0-Nl3iHebCBMx9U", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `You are an AI assistant that answers questions about Nabhan based on this context:
+                                ${JSON.stringify(nabhanData)}
+                                
+                                User question: ${message}
+                                
+                                Provide a concise and accurate answer focusing on Nabhan's skills, achievements, or background.`
+                            }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                const answer = data.candidates[0].content.parts[0].text;
+                addBotMessage(answer);
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                addBotMessage("I'm having trouble connecting to the AI service. Please try again later.");
+            }
+        }
+
+        // Check local data first for common questions
+        function getLocalResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('who are you') || lowerMessage.includes('what is this')) {
+                return "I'm an AI assistant that can answer questions about Nabhan, an AI specialist and martial artist.";
+            }
+            
+            if (lowerMessage.includes('contact') || lowerMessage.includes('how to reach')) {
+                return `You can contact Nabhan via:
+                - Instagram: ${nabhanData.contact.instagram}
+                - GitHub: ${nabhanData.contact.github}
+                - Phone: ${nabhanData.contact.phone}
+                - Email: ${nabhanData.contact.email}`;
+            }
+            
+            if (lowerMessage.includes('skill') || lowerMessage.includes('expert')) {
+                return `Nabhan has skills in:
+                - Tech: ${nabhanData.skills.tech.join(', ')}
+                - Martial Arts: ${nabhanData.skills.martial_arts.join(', ')}
+                - Weapons: ${nabhanData.skills.weapons.join(', ')}`;
+            }
+            
+            if (lowerMessage.includes('achieve') || lowerMessage.includes('accomplish')) {
+                return `Nabhan's achievements include:
+                - ${nabhanData.achievements[0].title}: ${nabhanData.achievements[0].description}
+                - ${nabhanData.achievements[1].title}: ${nabhanData.achievements[1].description}`;
+            }
+            
+            if (lowerMessage.includes('martial') || lowerMessage.includes('karate')) {
+                return `Nabhan has trained in martial arts including ${nabhanData.skills.martial_arts.join(', ')}. ${nabhanData.achievements[1].description}`;
+            }
+            
+            if (lowerMessage.includes('ai') || lowerMessage.includes('artificial intelligence')) {
+                return `Nabhan is an AI specialist. ${nabhanData.achievements[0].description} He has skills in ${nabhanData.skills.tech.filter(skill => skill.includes('AI')).join(', ')}.`;
+            }
+            
+            return null;
+        }
+    </script>
+</body>
+</html>

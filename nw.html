@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- This title is set dynamically by the config below -->
+    <title>Portfolio</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- This <style> block is intentionally minimal. Most styles are controlled by JS -->
+    <style>
+        :root {
+        /* Fonts */
+        --font-primary: 'Inter', sans-serif;
+        --font-mono: 'Fira Code', monospace;
+
+        /* Light Mode Colors (default) */
+        --color-primary: #4F46E5;
+        --color-secondary: #D946EF;
+        --color-background: #F9FAFB;
+        --color-text: #111827;
+        --color-card: #FFFFFF;
+        --color-border: #E5E7EB;
+
+        /* Mobile First Font Sizes */
+        --fs-h1: 2.25rem; /* 36px */
+        --fs-h2: 1.75rem; /* 28px */
+        --fs-h3: 1.25rem; /* 20px */
+        --fs-body: 1rem;   /* 16px */
+        --fs-small: 0.875rem; /* 14px */
+
+        /* Spacing & Radius */
+        --spacing-sm: 0.5rem;
+        --spacing-md: 1rem;
+        --spacing-lg: 2rem;
+        --section-padding-y: 5rem;
+        --border-radius: 0.5rem;
+        }
+
+        /* Tablet (≥ 640px) */
+        @media (min-width: 640px) {
+        :root {
+            --fs-h1: 3rem;    /* 48px */
+            --fs-h2: 2rem;    /* 32px */
+            --fs-h3: 1.5rem;  /* 24px */
+            --fs-body: 1.125rem; /* 18px */
+            --fs-small: 1rem; /* 16px */
+        }
+        }
+
+        /* Desktop (≥ 1024px) */
+        @media (min-width: 1024px) {
+        :root {
+            --fs-h1: 3.75rem; /* 60px */
+            --fs-h2: 2.25rem; /* 36px */
+            --fs-h3: 1.5rem;  /* 24px */
+            --fs-body: 1.125rem; /* 18px */
+            --fs-small: 1rem; /* 16px */
+        }
+        }
+
+
+        .dark:root {
+            /* Dark Mode Colors */
+            --color-primary: #6366F1;
+            --color-secondary: #EC4899;
+            --color-background: #111827;
+            --color-text: #E5E7EB;
+            --color-card: #1F2937;
+            --color-border: #374151;
+        }
+        
+        body {
+            background-color: var(--color-background);
+            color: var(--color-text);
+            font-family: var(--font-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dynamic Typography */
+        h1 { font-size: var(--fs-h1); font-weight: 900; }
+        h2 { font-size: var(--fs-h2); font-weight: 800; }
+        h3 { font-size: var(--fs-h3); font-weight: 700; }
+        p, li, a, span, div { font-size: var(--fs-body); }
+        small { font-size: var(--fs-small); }
+        
+        /* Animation Keyframes */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes slideInBottom {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glowPulse {
+            0%, 100% {
+                box-shadow: 0 0 12px rgba(16, 185, 178, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 24px rgba(16, 185, 178, 1);
+            }
+        }
+        
+        /* Animation Classes */
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-on-scroll {
+            opacity: 0;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .slide-in-bottom { transform: translateY(50px); }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background-color: var(--color-card); }
+        ::-webkit-scrollbar-thumb { background-color: var(--color-primary); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background-color: var(--color-secondary); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- All HTML content below is a template shell. It will be populated by the JS config. -->
+
+    <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md" style="background-color: rgba(0, 255, 229, 0.363); border-bottom: 1px solid var(--color-border); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" id="nav-logo" class="text-2xl font-black" style="color: var(--color-primary);">LOGO</a>
+
+            <!-- Desktop Links -->
+            <div id="nav-links" class="hidden md:flex items-center space-x-6"></div>
+
+            <!-- Theme + Hamburger -->
+            <div class="flex items-center space-x-4">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="p-2 rounded-full hidden md:block" style="color: var(--color-text); background: transparent;">
+                    <svg id="theme-toggle-dark-icon" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="h-5 w-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                </button>
+
+                <!-- Hamburger -->
+                <button id="mobile-menu-button" class="md:hidden p-2 rounded focus:outline-none" style="color: var(--color-text); background: transparent;">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden flex-col items-center space-y-4 px-6 py-4 bg-[var(--color-card)] shadow-lg transition-all duration-300 ease-in-out">
+            <!-- Nav links will be injected here -->
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6">
+
+        <!-- GLOBAL STYLE (Add to your <style> or Tailwind config) -->
+<style>
+    .glow-text {
+        color: white;
+        text-shadow:
+            0 0 5px #fff,
+            0 0 10px rgba(16, 185, 178, 1);
+    }
+
+    .glow-subtle {
+        color: #eee;
+        text-shadow:
+            0 0 3px #ccc,
+            0 0 5px rgba(16, 185, 178, 1);
+    }
+
+    @keyframes glowPulse {
+        0%, 100% {
+            box-shadow: 0 0 10px rgba(16, 185, 178, 0.8);
+        }
+        50% {
+            box-shadow: 0 0 20px rgba(16, 185, 178, 1);
+        }
+    }
+</style>
+
+<!-- HERO SECTION -->
+    <section id="hero" class="min-h-screen flex items-center">
+        <div class="md:w-3/5">
+            <h1 id="hero-headline" class="glow-text uppercase font-black text-[6rem]"></h1>
+            <p id="hero-subtitle" class="mt-4 glow-text text-2xl italic font-bold"></p>
+            <p id="hero-description" class="mt-6 glow-subtle text-lg font-normal leading-relaxed max-w-2xl" style="white-space: pre-line;"></p>
+            <a id="hero-cta-button" href="#" class="mt-8 inline-block px-8 py-4 font-bold rounded-md text-white transition-all duration-300 transform hover:scale-105 glow-text" style="background-color: var(--color-primary); animation: glowPulse 2s ease-in-out infinite;"></a>
+        </div>
+        <div class="hidden md:flex md:w-2/5 justify-center items-center">
+            <img id="hero-image" src="" alt="" class="w-full max-w-sm rounded-full shadow-2xl animate-float">
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="animate-on-scroll slide-in-bottom" style="padding-top: var(--section-padding-y); padding-bottom: var(--section-padding-y);">
+        <h2 id="about-headline" class="text-center glow-text text-4xl font-bold"></h2>
+        <div class="mt-12 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/3">
+                <img id="about-image" src="" alt="" class="rounded-lg shadow-xl w-full">
+            </div>
+            <div id="about-description" class="md:w-2/3 glow-subtle text-lg space-y-4"></div>
+        </div>
+    </section>
+
+    <!-- achievements SECTION -->
+    <section id="achievements" style="padding-top: var(--section-padding-y); padding-bottom: var(--section-padding-y);">
+        <h2 id="achievements-headline" class="text-center glow-text text-4xl font-bold animate-on-scroll slide-in-bottom"></h2>
+        <div id="achievements-grid" class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project cards will be injected here by JS -->
+        </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="animate-on-scroll slide-in-bottom" style="padding: var(--section-padding-y) var(--spacing-lg); background-color: var(--color-card); border-radius: var(--border-radius);">
+        <h2 id="skills-headline" class="text-center glow-text text-4xl font-bold"></h2>
+        <div id="skills-container" class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-5xl mx-auto">
+            <!-- Skill categories will be injected here by JS -->
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" style="padding-top: var(--section-padding-y); padding-bottom: var(--section-padding-y);">
+        <h2 id="testimonials-headline" class="text-center glow-text text-4xl font-bold animate-on-scroll slide-in-bottom"></h2>
+        <div id="testimonials-grid" class="mt-12 grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <!-- Testimonial cards will be injected here by JS -->
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="animate-on-scroll slide-in-bottom py-16">
+    <div class="text-center max-w-3xl mx-auto">
+        <h2 id="contact-headline" class="glow-text text-4xl font-bold mb-4">Let's Connect</h2>
+        <p id="contact-description" class="glow-subtle text-lg mb-8">Reach out, collaborate, or just vibe. I'm always open.</p>
+
+        <!-- Social Icons + Handles -->
+        <div class="flex flex-wrap justify-center gap-6 text-lg text-white">
+
+        <!-- Instagram -->
+        <a href="https://instagram.com/yourusername" target="_blank" class="flex items-center gap-2 hover:text-[var(--color-primary)] transition-all">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/instagram/instagram-original.svg" class="w-6 h-6" alt="Instagram">
+            @yourusername
+        </a>
+
+        <!-- X (Twitter) -->
+        <a href="https://twitter.com/yourhandle" target="_blank" class="flex items-center gap-2 hover:text-[var(--color-primary)] transition-all">
+            <svg class="w-6 h-6 text-[var(--color-primary)]" fill="currentColor" viewBox="0 0 24 24"><path d="M22.162 5.656c-.793.352-1.644.59-2.537.698a4.425 4.425 0 001.94-2.444 8.937 8.937 0 01-2.814 1.08A4.438 4.438 0 0015.296 4c-2.465 0-4.462 1.997-4.462 4.462 0 .35.039.692.115 1.02-3.709-.186-7-1.963-9.2-4.662a4.45 4.45 0 00-.604 2.245c0 1.548.788 2.914 1.986 3.714a4.42 4.42 0 01-2.021-.558v.056c0 2.163 1.538 3.968 3.579 4.378a4.445 4.445 0 01-2.014.077c.568 1.77 2.217 3.057 4.171 3.092A8.917 8.917 0 012 19.544 12.593 12.593 0 008.29 21c7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.531A8.344 8.344 0 0022.162 5.656z"/></svg>
+            @yourhandle
+        </a>
+
+        <!-- Discord -->
+        <a href="https://discord.gg/yourserver" target="_blank" class="flex items-center gap-2 hover:text-[var(--color-primary)] transition-all">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discordjs/discordjs-original.svg" class="w-6 h-6" alt="Discord">
+            yourDiscord#1234
+        </a>
+
+        <!-- GitHub -->
+        <a href="https://github.com/yourgithub" target="_blank" class="flex items-center gap-2 hover:text-[var(--color-primary)] transition-all">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" class="w-6 h-6" alt="GitHub">
+            yourgithub
+        </a>
+
+        <!-- Phone -->
+        <a href="tel:+971582370390" class="flex items-center gap-2 hover:text-[var(--color-primary)] transition-all">
+            <svg class="w-6 h-6 text-[var(--color-primary)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 0111 19a19.5 19.5 0 01-6-6A19.79 19.79 0 013.08 4.1 2 2 0 015 2h3a2 2 0 012 1.72A12.16 12.16 0 0011.11 6.6a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006 6l1.17-1.17a2 2 0 012.11-.45 12.16 12.16 0 002.91 1.11A2 2 0 0122 16.92z"/></svg>
+            +971 50 000 0000
+        </a>
+
+        <!-- WhatsApp -->
+        <a href="https://wa.me/971582370390" target="_blank" class="flex items-center gap-2 hover:text-[var(--color-primary)] transition-all">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="w-6 h-6" alt="WhatsApp">
+            WhatsApp Me
+        </a>
+
+        <!-- Gmail -->
+        <a href="mailto:nabhanibnjaseer@gmail.com" class="flex items-center gap-2 hover:text-[var(--color-primary)] transition-all">
+            <svg class="w-6 h-6 text-[var(--color-primary)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+            youremail@gmail.com
+        </a>
+
+        </div>
+
+    <!-- CTA Button -->
+    <a id="contact-cta-button" href="https://www.instagram.com/" target="_blank" class="mt-10 inline-block px-10 py-4 font-bold rounded-md text-white transition-all duration-300 transform hover:scale-105 glow-text" style="background-color: var(--color-primary); animation: glowPulse 2s ease-in-out infinite;">
+      Contact Me
+    </a>
+
+    <div id="contact-social-links" class="flex justify-center space-x-6 mt-8"></div>
+  </div>
+</section>
+
+
+    </section>
+
+        
+    </main>
+    
+    <!-- FOOTER -->
+    <footer class="text-center py-6" style="border-top: 1px solid var(--color-border);">
+        <p id="footer-text"></p>
+    </footer>
+
+    <!-- SCRIPT SECTION -->
+    <script type="module">
+    /******************************************************************************
+     *
+     *                      PORTFOLIO CONFIGURATION
+     * 
+     *  Instructions: This is the ONLY place you need to edit.
+     *  Fill in your personal information, achievements, skills, and preferences.
+     *  The website will automatically update based on what you enter here.
+     *
+     ******************************************************************************/
+
+    const portfolioConfig = {
+        
+        // ===================================================================
+        // A. THEME & APPEARANCE CONFIGURATION
+        // ===================================================================
+        theme: {
+            // Choose your Google Fonts. Example: 'Inter', 'Roboto', 'Lato'
+            // Add the font names to the `googleFonts` array.
+            googleFonts: ['Inter', 'Fira Code'],
+            font: {
+                primary: "'Inter', sans-serif",
+                mono: "'Fira Code', monospace",
+            },
+            // Define your color palette for both light and dark modes.
+            colors: {
+                light: {
+                    primary:    '#119DA4', // Deep Teal Blue (bold enough for buttons, accents)
+                    secondary:  '#12D9C6', // Fresh Aqua Green
+                    background: 'rgba(1, 1, 1, 1)', // Very Light Cyan (clean, subtle background)
+                    text:       '#111827', // Dark text (unchanged)
+                    card:       '#89F8F8', // Light Aqua (great for card surfaces)
+                    border:     '#50FAD2'  // Aqua Green (good contrast for edges)/ 
+                },
+                
+            },
+            // Define font sizes for consistent typography. Uses 'rem' for accessibility.
+           fontSizes: {
+                h1: '4.5rem',     // Huge, main title size — grabs attention
+                h2: '3rem',       // Clear secondary heading, big but smaller than h1
+                h3: '2rem',       // Smaller heading, for subsections
+                body: '1.125rem', // Comfortable reading size for paragraphs
+                small: '0.75rem'  // Noticeably smaller, for captions or disclaimers
+            },  
+
+            // Define spacing and border radius for a consistent layout.
+            layout: {
+                sectionPaddingY: '6rem',
+                borderRadius: '0.75rem' // More rounded corners
+            }
+        },
+
+        // ===================================================================
+        // B. CONTENT CONFIGURATION
+        // ===================================================================
+        content: {
+            // SEO and site-wide settings
+            site: {
+                title: 'Jane Doe | Full-Stack Developer',
+                logoText: 'nl.png'
+            },
+            
+            // Navigation Links
+            navLinks: [
+                { name: 'About', href: '#about' },
+                { name: 'achievements', href: '#achievements' },
+                { name: 'Skills', href: '#skills' },
+                { name: 'Contact', href: '#contact' }
+            ],
+
+            // Hero Section
+            hero: {
+                headline: "I Am Nabhan.",
+                subtitle: "Discomfort is inevitable in the presence of true excellence... MY EXCELLENCE.",
+                emphasis: "Excellence isn’t what I chase — it’s what I am.",
+                description: `
+                    I was never born for mediocrity.  
+                    Never shaped to kneel among the timid.  
+                    My spirit rejects comfort, my hands were made for work, and my mind for war.  
+                    Laziness disgusts me. Weakness is a language I never learned.  
+                    
+                    I move with purpose, build with precision, and fight like I was carved from resolve.  
+                    Greatness is not my goal — it is my rightful state.  
+                    Maybe not today. Maybe not tomorrow.  
+                    But one day — or death in the process.
+                `,
+                image: {
+                    src: 'https://upload.wikimedia.org/wikipedia/it/thumb/b/ba/Michael_corleone.png/960px-Michael_corleone.png',
+                    alt: 'Jane Doe smiling at her desk, ready to code.'
+                }
+            },
+
+            // About Section
+            about: {
+                headline: "A Bit About Me",
+                image: {
+                    src: 'https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2014/10/29/1414568178022/ce595af2-3bad-4b17-8f15-0cedc04ed3cd-1020x612.jpeg?width=700&quality=85&auto=format&fit=max&s=862945e8f31bcb6005b3ebe25a466ea9',
+                    alt: 'Jane Doe working at her desk.'
+                },
+                description: [
+                    "",
+                    "I specialize in Artificial Intelligence, but I’m not just a tech guy.",
+                    "I train like a fighter, think like a strategist, move like an entrepreneur.",
+                    "",
+                    "From building intelligent systems that solve real-world problems to breaking limits in martial arts and turning ideas into income — I operate on every level that matters.",
+                    "",
+                    "My Core Arenas:",
+                    "🧠 Artificial Intelligence – Designing systems that think, predict, and act with precision.",
+                    "🥋 Martial Arts – Discipline, control, and calculated aggression.",
+                    "💸 Money-Making – Digital AI, branding, and income without excuses.",
+                    "⚽ Football – Sharp vision, fast decisions, team synergy.",
+                    "💼 Mindset Mastery – Ruthless focus. No distractions. No wasted time."
+                ]
+
+            },
+
+            // achievements Section
+            achievements: {
+                headline: "Things I've Built",
+                cards: [
+                    {
+                        title: "Certified in AI",
+                        description: "AI since 2022. Government-certified. I’ve tested it all — models, tools, prompts, systems. If it’s AI, I know what works. Ask me anything.",
+                        image: { src: 'https://picsum.photos/seed/ai/400/250', alt: 'AI-driven neural network visualization.' },
+                        tags: ['Prompting', 'Generative AI', 'Artificial Intelligence', 'Problem Solving'],
+                        link: '#'
+                    },
+                    {
+                        title: "Martial Arts",
+                        description: "Combat-tested discipline. Trained in real environments, focused on control, power, and resilience. Mind and body sharpened under pressure.",
+                        image: { src: 'https://picsum.photos/seed/martial/400/250', alt: 'Silhouette of a martial artist mid-strike.' },
+                        tags: ['Karate', 'Shorin-Ryu', '2nd Kyu', 'MMA'],
+                        link: '#'
+                    },
+                    {
+                        title: "Football",
+                        description: "Winner of 3 penalty shootouts in school years ’6, ’7, and ’10. Played on the school football team since 6th grade. On the pitch, I command the game.",
+                        image: { src: 'https://picsum.photos/seed/football/400/250', alt: 'Action shot of a football game.' },
+                        tags: ['Championships', 'Penalty Shootouts', '6th Grade Team', 'Midfielder'],
+                        link: '#'
+                    },
+                    {
+                        title: "Vibe Codes",
+                        description: "Created numerous websites across fields — portfolios, company sites, AI chatbots, and side projects like games. Focused on quality and constant growth.",
+                        image: { src: 'https://picsum.photos/seed/vibes/400/250', alt: 'Abstract neon lines representing mindset energy.' },
+                        tags: ['Vibe Coding', 'AI Chatbots', 'Portfolios', 'AI Integration'],
+                        link: '#'
+                    }
+                ]
+            },
+
+            // Skills Section
+            skills: {
+                headline: "My Toolbox",
+                categories: [
+                    {
+                        title: "Tech & Code",
+                        items: [
+                            'JavaScript (ESNext)',
+                            'Python',
+                            'AI / Prompt Engineering',
+                            'Next.js / React',
+                            'HTML & Tailwind CSS',
+                            'Full-Stack Development',
+                            'Chatbot Creation'
+                        ]
+                    },
+                    {
+                        title: "Combat Arts",
+                        items: [
+                            'Karate (Shorin-Ryu, 2nd Kyu)',
+                            'MMA Basics',
+                            'Brazilian Jiu-Jitsu (BJJ)',
+                            'Boxing Fundamentals',
+                            'Sparring & Self-Defense'
+                        ]
+                    },
+                    {
+                        title: "Weapons Training",
+                        items: [
+                            'Nunchaku',
+                            'Bo Staff',
+                            'Butterfly Knives',
+                        ]
+                    },
+                    {
+                        title: "Creative Skills",
+                        items: [
+                            'Photo Editing (Picsart, Snapseed)',
+                            'Video Editing (CapCut, Premiere)',
+                            'Poster Design',
+                            'UI Layouts',
+                            'Creative Direction'
+                        ]
+                    },
+                    {
+                        title: "Discipline & AI",
+                        items: [
+                            'Mindset Training',
+                            'Focus Drills',
+                            'Routine Building',
+                            'Strategic Planning',
+                            'Problem Solving'
+                        ]
+                    }
+                ]
+            },
+
+            
+            // Testimonials Section
+           testimonials: {
+                headline: "What Others Say",
+                cards: [
+                    {
+                        quote: "G doesn’t just learn — he absorbs, applies, and executes faster than anyone I’ve seen. Whether it’s AI, code, or combat, he brings unmatched intensity and clarity.",
+                        person: {
+                            name: "Firas",
+                            title: "Training Partner & Tech Collaborator",
+                            image: { src: 'https://i.pravatar.cc/100?u=firas', alt: 'Firas' }
+                        }
+                    },
+                    {
+                        quote: "G’s mindset is elite. He built multiple websites, bots, and tools while still training martial arts and editing videos like it’s nothing. This guy doesn’t make excuses — just results.",
+                        person: {
+                            name: "Rushil",
+                            title: "Creative Lead & Teammate",
+                            image: { src: 'https://i.pravatar.cc/100?u=rushil', alt: 'Rushil' }
+                        }
+                    }
+                ]
+            },
+
+            // Contact Section
+            contact: {
+                headline: "Let's Create Something Amazing",
+                description: "I'm currently available for freelance achievements and full-time opportunities. If you have an idea you'd like to discuss, or just want to say hi, feel free to reach out!",
+                ctaButtonText: "Get in Touch",
+                email: "hello@janedoe.dev"
+            },
+            
+            // Social Links & Footer
+            footer: {
+                socialLinks: [
+                    { name: 'GitHub', url: '#', icon: `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>` },
+                    { name: 'LinkedIn', url: '#', icon: `<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"><title>LinkedIn</title><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>` }
+                ],
+                footerText: `© ${new Date().getFullYear()} Jane Doe. Handcrafted with passion.`
+            }
+        }
+    };
+    
+    /******************************************************************************
+     *
+     *                      DYNAMIC RENDERING ENGINE
+     * 
+     *  This part of the script reads the configuration object above and
+     *  builds the website. You shouldn't need to edit anything below this line.
+     *
+     ******************************************************************************/
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const config = portfolioConfig;
+        
+        // ===================================================================
+        // 1. THEME & STYLE INJECTOR
+        // ===================================================================
+        const root = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+        const applyTheme = (isDark) => {
+            const theme = config.theme.colors.light; // always use light theme
+            root.classList.remove('dark'); // make sure dark class doesn't sneak in
+            Object.keys(theme).forEach(key => {
+                root.style.setProperty(`--color-${key}`, theme[key]);
+            });
+
+            if (darkIcon) darkIcon.style.display = 'none';
+            if (lightIcon) lightIcon.style.display = 'none';
+        };
+
+        // Inject Google Fonts
+        const fontLink = document.createElement('link');
+        fontLink.rel = 'stylesheet';
+        fontLink.href = `https://fonts.googleapis.com/css2?family=${config.theme.googleFonts.join('&family=')}&display=swap`;
+        document.head.appendChild(fontLink);
+
+        // Apply all theme variables
+        root.style.setProperty('--font-primary', config.theme.font.primary);
+        root.style.setProperty('--font-mono', config.theme.font.mono);
+        Object.entries(config.theme.fontSizes).forEach(([key, value]) => root.style.setProperty(`--fs-${key}`, value));
+        root.style.setProperty('--section-padding-y', config.theme.layout.sectionPaddingY);
+        root.style.setProperty('--border-radius', config.theme.layout.borderRadius);
+        
+        // Theme toggle logic
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let isDarkMode = localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : prefersDark;
+        applyTheme(isDarkMode);
+
+        themeToggle.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            applyTheme(isDarkMode);
+        });
+
+        // ===================================================================
+        // 2. CONTENT POPULATOR
+        // ===================================================================
+        const content = config.content;
+        
+        // Helper to populate an element
+        const populate = (id, value, attr = 'innerHTML') => {
+            const el = document.getElementById(id);
+            if (el) el[attr] = value;
+        };
+        const setAttr = (id, attr, value) => {
+             const el = document.getElementById(id);
+             if(el) el.setAttribute(attr, value);
+        }
+        
+        document.title = content.site.title;
+        const navLogo = document.getElementById('nav-logo');
+            if (navLogo) {
+                navLogo.innerHTML = `<img src="${content.site.logoText}" alt="Site Logo" class="h-full max-h-6 object-contain">`;
+            }
+
+
+        
+        // Navigation
+        const navLinksContainer = document.getElementById('nav-links');
+        if(navLinksContainer) {
+            navLinksContainer.innerHTML = content.navLinks.map(link => 
+                `<a href="${link.href}" class="hover:text-[var(--color-primary)] transition-colors">${link.name}</a>`
+            ).join('');
+        }
+        
+        // Hero
+        populate('hero-headline', content.hero.headline);
+        populate('hero-subtitle', content.hero.subtitle);
+        populate('hero-description', content.hero.description);
+        populate('hero-cta-button', content.hero.ctaButtonText);
+        setAttr('hero-cta-button', 'href', '#achievements');
+        setAttr('hero-image', 'src', content.hero.image.src);
+        setAttr('hero-image', 'alt', content.hero.image.alt);
+        
+        // About
+        populate('about-headline', content.about.headline);
+        populate('about-description', content.about.description.map(p => `<p>${p}</p>`).join(''));
+        setAttr('about-image', 'src', content.about.image.src);
+        setAttr('about-image', 'alt', content.about.image.alt);
+
+        // achievements
+        populate('achievements-headline', content.achievements.headline);
+        const achievementsGrid = document.getElementById('achievements-grid');
+        if (achievementsGrid) {
+            achievementsGrid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6";
+            achievementsGrid.innerHTML = content.achievements.cards.map(card => `
+                <div class="animate-on-scroll slide-in-bottom p-6 shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                    style="background-color: var(--color-card); border-radius: var(--border-radius); border: 1px solid var(--color-border); text-shadow: 0 0 5px #fff, 0 0 10px rgba(16, 185, 178, 1);">
+                    <a href="${card.link}" target="_blank" rel="noopener noreferrer">
+                        <img src="${card.image.src}" alt="${card.image.alt}" class="w-full h-45 object-cover mb-4 rounded-lg">
+                        <h3 class="text-[var(--color-primary)] font-bold text-lg glow-text">${card.title}</h3>
+                        <p class="mt-2 text-white text-sm glow-subtle">${card.description}</p>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            ${card.tags.map(tag => `
+                                <span class="px-2 py-1 text-xs rounded glow-subtle"
+                                    style="background-color: color-mix(in srgb, var(--color-primary) 15%, transparent); color: var(--color-primary);">
+                                    ${tag}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </a>
+                </div>
+            `).join('');
+        }
+        // Skills
+        populate('skills-headline', content.skills.headline);
+        const skillsContainer = document.getElementById('skills-container');
+        if (skillsContainer) {
+            skillsContainer.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center";
+
+            skillsContainer.innerHTML = content.skills.categories.map((cat, index) => {
+                const isCenteredRow = index >= 3;
+                const extraClass = index === 3 ? 'md:col-start-2' : index === 4 ? 'md:col-start-3' : '';
+
+                return `
+                    <div class="w-full max-w-[280px] aspect-square p-6 rounded-lg shadow-md bg-[var(--color-card)] border border-[var(--color-border)] hover:-translate-y-1 transition-all duration-300 glow-subtle ${extraClass}">
+                        <h3 class="mb-4 text-lg font-bold text-[var(--color-primary)] glow-text">${cat.title}</h3>
+                        <ul class="space-y-2 text-sm text-white">
+                            ${cat.items.map(item => `<li>• ${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Testimonials
+        populate('testimonials-headline', content.testimonials.headline);
+        const testimonialsGrid = document.getElementById('testimonials-grid');
+        if(testimonialsGrid) {
+            testimonialsGrid.innerHTML = content.testimonials.cards.map(card => `
+                <div class="animate-on-scroll slide-in-bottom p-6 shadow-lg" style="background-color: var(--color-card); border-radius: var(--border-radius); border: 1px solid var(--color-border);">
+                    <blockquote class="italic">"${card.quote}"</blockquote>
+                    <div class="flex items-center mt-4">
+                        <img src="${card.person.image.src}" alt="${card.person.image.alt}" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <p class="font-bold">${card.person.name}</p>
+                            <p style="font-size: var(--fs-small); color: color-mix(in srgb, var(--color-text) 70%, transparent);">${card.person.title}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Contact & Footer
+        populate('contact-headline', content.contact.headline);
+        populate('contact-description', content.contact.description);
+        populate('contact-cta-button', content.contact.ctaButtonText);
+        setAttr('contact-cta-button', 'href', 'https://www.instagram.com/');
+        populate('footer-text', content.footer.footerText);
+        const socialLinksContainer = document.getElementById('contact-social-links');
+        if(socialLinksContainer) {
+            socialLinksContainer.innerHTML = content.footer.socialLinks.map(link => `
+                <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="transition-colors hover:text-[var(--color-primary)]" style="color: color-mix(in srgb, var(--color-text) 70%, transparent);">${link.icon}</a>
+            `).join('');
+        }
+        
+        // ===================================================================
+        // 3. ANIMATION & INTERACTIVITY ENGINE
+        // ===================================================================
+        const animatedSections = document.querySelectorAll('.animate-on-scroll');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        animatedSections.forEach(section => observer.observe(section));
+    });
+    </script>
+</body>
+</html>
